@@ -1,101 +1,95 @@
-## Exon-Skip Filter
+text
+# Exon-Skip Filter
+
 A containerized Python CLI tool for filtering exon skip events from genomic data. Works identically across Windows, Linux, and Mac.
 
 ## Quick Start
-# Prerequisites
-Docker Desktop installed
-Git
 
-1. Clone & Setup
+### Prerequisites
+- Docker Desktop installed
+- Git
+
+### 1. Clone & Setup
+```bash
 git clone https://github.com/itsnottheend-Jason/exon-skip-filter
 cd exon-skip-filter
 mkdir data output logs
-
-2. Test with Sample Data (manual work)
+2. Test with Sample Data
+bash
 # Copy sample data
 cp sample-data/* data/
-# Real Data
-Replace data/events.txt with real genomic events file
 
-# CLI Usage (python)
-cd exon-skip-filter
-python src/cli.py --input data/events.txt --output output/output.json
-
-# Arguments:
---input, -i (required) - Path to events.txt
---output, -o - Output JSON (default: output/output.json)
-
-# Docker Build & run (for Different OS/platform, see 'Platform-Specific Commands')
+# Build & run
 docker build -t exon-skip-filter .
 docker run --rm -v ./data:/app/data -v ./output:/app/output -v ./logs:/app/logs exon-skip-filter --input data/events.txt --output output/output.json
-
 3. Check Results
+bash
 cat logs/exon_filter.log      # Processing logs with timestamps
 cat output/output.json        # Filtered exon skip results
-
-
-
-## Platform-Specific Commands
-# Windows (PowerShell)
+Platform-Specific Commands
+Windows (PowerShell)
+powershell
 cd exon-skip-filter
-docker build -t exon-skip-filter .
 docker run --rm -v '.\data:/app/data' -v '.\output:/app/output' -v '.\logs:/app/logs' exon-skip-filter --input data/events.txt --output output/output.json
-# Windows (CMD)
+Windows (CMD)
+text
 cd /d exon-skip-filter
-docker build -t exon-skip-filter .
 docker run --rm -v ".\data:/app/data" -v ".\output:/app/output" -v ".\logs:/app/logs" exon-skip-filter --input data/events.txt --output output/output.json
-
-# Linux/Mac
+Linux/Mac
+bash
 cd exon-skip-filter
-docker build -t exon-skip-filter .
 docker run --rm -v ./data:/app/data -v ./output:/app/output -v ./logs:/app/logs exon-skip-filter --input data/events.txt --output output/output.json
+Local Python Usage
+bash
+cd exon-skip-filter
+pip install -r requirements.txt
+python src/cli.py --input data/events.txt --output output/output.json
+CLI Arguments
+--input, -i (required) - Path to events.txt
 
+--output, -o - Output JSON (default: output/output.json)
 
-
-
-## Project Structure
+Project Structure
+text
 exon-skip-filter/
 ├── Dockerfile              # Production-ready Python 3.12
 ├── requirements.txt        # PyYAML, pandas, numpy
 ├── src/
-│   ├── parser.py           # parser, iter for large inputs
-│   └── filters.py          # filters, extendable
-│   └── enrichment.py       # for gene name
-│   └── pipeline.py         # Core pipeline logic
-│   └── logging_config.py   # configration of logger for both file and runtime display
-│   └── cli.py              # CLI entrypoint (--input, --output)
-├── data/                   # Mount your input here
-├── output/                 # Results appear here  
-└── logs/                   # Processing logs here
-
-
-## Output Files
-After run:
-
+│   ├── cli.py             # CLI entrypoint
+│   ├── pipeline.py        # Core pipeline logic
+│   ├── parser.py          # Parser for large inputs
+│   ├── filters.py         # Extensible filters
+│   ├── enrichment.py      # Gene name enrichment
+│   └── logging_config.py  # Dual console/file logging
+├── sample-data/           # Test events.txt
+├── data/                  # Mount your input here
+├── output/                # Results appear here
+└── logs/                  # Processing logs here
+Output Files
 output/output.json - Filtered exon skip events
+
 logs/exon_filter.log - Detailed processing log:
 
+text
 2026-03-19 16:30:00 [INFO] cli: Processing data/events.txt
 2026-03-19 16:30:01 [INFO] Exon_filter.parser: Found 23 events
 2026-03-19 16:30:02 [INFO] __main__: Pipeline completed successfully
-
-
-# Troubleshooting
+Troubleshooting
 "Input file not found" - Check data/events.txt exists
 
-Windows path issues - Use '.\data' (PowerShell) or ".\\data" (CMD)
+Windows path issues - Use '.\data' (PowerShell) or ".\data" (CMD)
 
-No logs - Verify ./logs folder mounted and logging configured to logs/exon_filter.log
+No logs - Verify ./logs folder mounted and logging configured
 
-## Features
+Features
 Zero dependency issues - Dockerized environment
 
 Cross-platform - Windows/Linux/Mac identical results
 
 Persistent data - Input/output/logs on filesystem
 
-Production logging - Module-level logs (cli, Exon_filter.parser)
+Production logging - Live console + file logging
 
-Clean exit codes - Proper error handling
+Clean modular structure - Separate parser, filters, pipeline
 
 Lightweight - Python 3.12-slim (~200MB image)
