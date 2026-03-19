@@ -1,0 +1,4 @@
+filters:
+- exon_skip
+- conf_threshold
+- psi
