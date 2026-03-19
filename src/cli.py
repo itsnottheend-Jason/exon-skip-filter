@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Command-line interface for exon skip filtering pipeline."""
+
 import sys
 import argparse
 from pipeline import run_pipeline

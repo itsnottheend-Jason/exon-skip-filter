@@ -1,19 +1,21 @@
+#!/usr/bin/env python3
+"""Main exon skip filtering pipeline orchestrating parsing, filtering, and enrichment."""
+
 import sys
 import yaml
 import json
-from parser import parse_events, iter_events
-from enrichment import enrich_events, enrich_event
+from parser import iter_events
+from enrichment import enrich_event
 import logging
 from __init__ import __version__
 from logging_config import setup_logging
+
 from filters import (
-    apply_all_filters, 
     apply_selected_filter,
     filter_exon_skip,      # add all defined filters
     filter_conf_threshold, 
     filter_psi             
 )
-
 
 # Setup logging ONCE (entrypoint only)
 setup_logging()
@@ -35,6 +37,14 @@ def run_pipeline(input_path, output_path, config_path=None):
         'conf_threshold': filter_conf_threshold,
         'psi': filter_psi
     }
+
+    """Execute complete exon skip filtering pipeline.
+    
+    Args:
+        input_path: Path to input TSV file
+        output_path: Path to output JSON file
+        config_path: Optional YAML config for custom filters
+    """
     
     if config_path:
         with open(config_path) as f:
@@ -68,6 +78,14 @@ def run_pipeline(input_path, output_path, config_path=None):
             output_events.append(enriched)
         out.write("\n]")
 
+    """Generate comprehensive summary statistics from enriched events.
+    
+    Args:
+        final_data: List of enriched event dictionaries
+        
+    Returns:
+        Summary statistics dictionary
+    """
     # Read final JSON for stats (super simple!)
     with open(output_path, 'r') as f:
         final_data = json.load(f)
@@ -80,7 +98,18 @@ def run_pipeline(input_path, output_path, config_path=None):
 
 # Manual test
 if __name__ == "__main__":
-    logger.info("=== Pipeline started ===")
-    run_pipeline('data/events.txt', 'output/output.json', config_path="config/config.yaml")
-    logger.info("Log file created!")
-    logger.info("Pipeline test successful!")
+    """Entry point for manual testing."""
+    try:
+        logger.info("=== Pipeline started ===")
+        run_pipeline('data/events.txt', 'output/output.json', config_path="config/config.yaml")
+        logger.info("Log file created!")
+        logger.info("Pipeline test successful!")
+    except FileNotFoundError as exc:
+        logger.error(f"Input/output files missing: {exc}")
+        sys.exit(1)
+    except yaml.YAMLError as exc:
+        logger.error(f"Config parsing failed: {exc}")
+        sys.exit(2)
+    except Exception as exc:
+        logger.exception("Pipeline execution failed")
+        sys.exit(3)
