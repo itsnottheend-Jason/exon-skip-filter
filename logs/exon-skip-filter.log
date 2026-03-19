@@ -1,0 +1,24 @@
+2026-03-19 20:01:56,042 [INFO] pipeline: === Starting exon skip pipeline version 1.0.0 ===
+2026-03-19 20:01:56,043 [INFO] pipeline: Input: data/events.txt
+2026-03-19 20:01:56,047 [INFO] pipeline: Total events to process: 73
+2026-03-19 20:01:56,470 [INFO] enrichment: GENE-NAME added: TASOR2
+2026-03-19 20:01:56,470 [INFO] enrichment: using cached GENE-NAME to save API calls
+2026-03-19 20:01:56,471 [INFO] enrichment: using cached GENE-NAME to save API calls
+2026-03-19 20:01:56,471 [INFO] enrichment: using cached GENE-NAME to save API calls
+2026-03-19 20:01:56,643 [INFO] enrichment: GENE-NAME added: FBH1
+2026-03-19 20:01:56,873 [INFO] enrichment: GENE-NAME added: PRKCQ-AS1
+2026-03-19 20:01:57,044 [INFO] enrichment: GENE-NAME added: UPF2
+2026-03-19 20:01:57,217 [INFO] enrichment: GENE-NAME added: PRPF18
+2026-03-19 20:01:57,386 [INFO] enrichment: GENE-NAME added: RPP38
+2026-03-19 20:01:57,611 [INFO] enrichment: GENE-NAME added: STAM
+2026-03-19 20:01:57,794 [INFO] enrichment: GENE-NAME added: ARL5B
+2026-03-19 20:01:57,973 [INFO] enrichment: GENE-NAME added: PLXDC2
+2026-03-19 20:01:58,170 [INFO] enrichment: GENE-NAME added: ANKRD16
+2026-03-19 20:01:58,336 [INFO] enrichment: GENE-NAME added: IL15RA
+2026-03-19 20:01:58,503 [INFO] enrichment: GENE-NAME added: FRMD4A
+2026-03-19 20:01:58,686 [INFO] enrichment: GENE-NAME added: FAM107B
+2026-03-19 20:01:58,861 [INFO] enrichment: GENE-NAME added: RSU1
+2026-03-19 20:01:58,875 [INFO] pipeline: Pipeline complete!
+2026-03-19 20:01:58,875 [INFO] pipeline: Processed: 73 → Output: 17 events
+2026-03-19 20:01:58,875 [INFO] pipeline: Cache stats: 14 unique genes found
+2026-03-19 20:01:58,876 [INFO] pipeline: Result: output/output.json
